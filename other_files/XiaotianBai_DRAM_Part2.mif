@@ -1,0 +1,23 @@
+-- NYU:Poly CS6133 Computer Architecture 
+-- Instructor: Vikram Padman 
+--	Xiaotian Bai CS6133 Midterm
+
+WIDTH=32;
+DEPTH=1024;
+
+ADDRESS_RADIX=HEX;
+DATA_RADIX=HEX;
+
+CONTENT BEGIN
+
+---------------------------------------------------
+--	Variables used in the program
+--	000	The value 0
+--	001	The value 1
+--	002	The value to count up to (20)
+--
+---------------------------------------------------
+000 : 00000000;
+001 : 00000001;
+002 : 00000014;
+END;

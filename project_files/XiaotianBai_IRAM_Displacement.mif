@@ -1,0 +1,167 @@
+-- NYU:Poly CS6133 Computer Architecture 
+-- Instructor: Vikram Padman 
+
+-- Modified by Xiaotian Bai for the Spring 2017 Midterm 
+-- The following codes include add_dis and sub_dis
+-- 
+--
+-- File format: 
+-- Hex Address 3 hex nibbles (12 bits) : bit31 ...... bit0; 
+WIDTH=32;
+DEPTH=1024;
+ADDRESS_RADIX=HEX;
+DATA_RADIX=BIN;
+CONTENT BEGIN
+-------------------------------------------------------------------------- 
+-- Overall program structure: 
+-- Row 000 to 004 to test add_dis in which row 002 is the instruction
+-- Row 005 to 009 to test sub_dis in which row 007 is the instruction
+-- Row 00A to 00E to test and_dis in which row 00C is the instruction
+-- Row 00F to 013 to test or_dis in which row 011 is the instruction
+-- Row 014 to 015 to test out_dis in which row 015 is the instruction
+---------------------------------------------------------------------
+
+-- Row 000 to 004 to test add_dis
+--
+--Hex Address : bit31...........bit15..........bit0; 
+--    |             |                  |                 | 
+     000      :     10001100000000100000000000001000;
+--                  |____||___||___||______________| 
+--                     |     |     |            | 
+--                  op=lw, rs=0,rt=2,   offset=8 
+-- lw r2,8(r0) -- Load data memory 2 -> r2 
+--
+     001      :     10001100000000010000000000000100;
+--                  |____||___||___||______________| 
+--                     |     |     |            | 
+--                  op=lw, rs=0,rt=1,   offset=4 
+-- lw r1,4(r0) -- Load data memory 1 -> r1  
+--
+     002      :     11000000010000010000000000000100;
+--                  |____||___||___||______________| 
+--                     |     |     |            | 
+--           op=add_dis, rs=2,rt=1,   offset=4 
+-- add_dis(r1,r2) -- r1=r1+M[offset(r2)]  
+--
+     003      :     10110000001000000000000000000000;
+--                  |____||___||___||______________| 
+--                     |     |     |            | 
+--                  op=out, rs=1,rt=0,   offset=0 
+-- out r1 -- Display the result on the LEDs  
+--
+     004      :     10101100000000010000000000100100;
+--                  |____||___||___||______________| 
+--                     |     |     |            | 
+--                  op=sw, rs=0,rt=1,   offset=36 
+-- sw r1,36(r0) -- Save r1 ->  data memory 9 
+--
+-- Row 005 to 009 to test sub_dis
+--
+     005      :     10001100000001000000000000001000;
+--                  |____||___||___||______________| 
+--                     |     |     |            | 
+--                  op=lw, rs=0,rt=4,   offset=8 
+-- lw r4,8(r0) -- Load data memory 2 -> r4  
+--
+     006      :     10001100000000110000000000000100;
+--                  |____||___||___||______________| 
+--                     |     |     |            | 
+--                  op=lw, rs=0,rt=3,   offset=4 
+-- lw r3,4(r0) -- Load data memory 1 -> r3 
+--
+     007      :     11010000100000110000000000000100;
+--                  |____||___||___||______________| 
+--                     |     |     |            | 
+--           op=sub_dis, rs=4,rt=3,   offset=4 
+-- sub_dis(r4,r3) -- r3=M[offset(r4)]-r3  
+--
+     008      :     10110000011000000000000000000000;
+--                  |____||___||___||______________| 
+--                     |     |     |            | 
+--                 op=out, rs=3,rt=0,   offset=0 
+-- out r3 -- Display the result on the LEDs  
+--
+     009      :     10101100000000110000000000101000;
+--                  |____||___||___||______________| 
+--                     |     |     |            | 
+--                  op=sw, rs=0,rt=3,   offset=40 
+-- sw r1,40(r0) -- Save r3 ->  data memory 10 
+--
+-- Row 00A to 00E to test and_dis
+--
+     00A      :     10001100000001100000000000001000;
+--                  |____||___||___||______________| 
+--                     |     |     |            | 
+--                  op=lw, rs=0,rt=5,   offset=8 
+-- lw r5,8(r0) -- Load data memory 2 -> r5 
+--
+     00B      :     10001100000001010000000000010100;
+--                  |____||___||___||______________| 
+--                     |     |     |            | 
+--                  op=lw, rs=0,rt=6,   offset=20 
+-- lw r6,20(r0) -- Load data memory 4 -> r6 
+--
+     00C      :     11100000110001010000000000001000;
+--                  |____||___||___||______________| 
+--                     |     |     |            | 
+--           op=and_dis, rs=6,rt=5,   offset=8 
+-- and_dis(r6,r5) -- r5=r5 and M[offset(r6)]  
+--
+     00D      :     10110000101000000000000000000000;
+--                  |____||___||___||______________| 
+--                     |     |     |            | 
+--                 op=out, rs=5,rt=0,   offset=0 
+-- out r5 -- Display the result on the LEDs  
+--
+     00E      :     10101100000001010000000000101100;
+--                  |____||___||___||______________| 
+--                     |     |     |            | 
+--                  op=sw, rs=0,rt=5,   offset=44 
+-- sw r5,44(r0) -- Save r5 ->  data memory 11 
+--
+-- Row 00F to 013 to test or_dis
+--
+     00F      :     10001100000010000000000000001000;
+--                  |____||___||___||______________| 
+--                     |     |     |            | 
+--                  op=lw, rs=0,rt=8,   offset=8 
+-- lw r8,8(r0) -- Load data memory 2 -> r8
+--
+     010      :     10001100000001110000000000010100;
+--                  |____||___||___||______________| 
+--                     |     |     |            | 
+--                  op=lw, rs=0,rt=7,   offset=20 
+-- lw r7,20(r0) -- Load data memory 4 -> r7 
+--
+     011      :     11110001000001110000000000001000;
+--                  |____||___||___||______________| 
+--                     |     |     |            | 
+--             op=or_dis, rs=8,rt=7,   offset=8 
+-- or_dis(r8,r7) -- r7=r7 or M[offset(r8)]  
+--
+     012      :     10110000111000000000000000000000;
+--                  |____||___||___||______________| 
+--                     |     |     |            | 
+--                 op=out, rs=7,rt=0,   offset=0 
+-- out r7 -- Display the result on the LEDs  
+--
+     013      :     10101100000001110000000000110000;
+--                  |____||___||___||______________| 
+--                     |     |     |            | 
+--                  op=sw, rs=0,rt=7,   offset=48 
+-- sw r7,48(r0) -- Save r7 ->  data memory 12 
+--
+-- Row 014 to 015 to test out_dis
+--
+     014      :     10001100000010010000000000001000;
+--                  |____||___||___||______________| 
+--                     |     |     |            | 
+--                  op=lw, rs=0,rt=9,   offset=8 
+-- lw r9,8(r0) -- Load data memory 2 -> r9 
+--
+     015      :     10010001001000000000000000001000;
+--                  |____||___||___||______________| 
+--                     |     |     |            | 
+--           op=out_dis, rs=9,rt=0,   offset=8 
+-- out_dis 8(r9) -- Display M[8(r9)] on the LEDs  
+End;

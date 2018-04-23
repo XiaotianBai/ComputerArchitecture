@@ -1,0 +1,26 @@
+
+-- NYU:Poly CS6133 Computer Architecture 
+-- Instructor: Vikram Padman 
+--	Xiaotian Bai CS6133 Midterm
+
+WIDTH=32;
+DEPTH=1024;
+
+ADDRESS_RADIX=HEX;
+DATA_RADIX=HEX;
+
+CONTENT BEGIN
+---------------------------------------------------
+--	Variables used in the program
+--	000	The value 0
+--	001 to 003 are divisible by 4 for addressing
+--  003 to 005 are used to test and_rin and or_rin 
+---------------------------------------------------
+000 : 00000000;
+001 : 00000008;
+002 : 0000000C;
+003 : 0000000D;
+004 : 00000007;
+005 : 00000009;
+END;
+---------------------------------------------------
